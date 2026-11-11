@@ -1,0 +1,52 @@
+// Static page background — SPEC §11.1 "Background". Gradients on <html>; the <div class="ph-bg"> in the shell adds
+// the two glow orbs and the faint grid. It is absolutely positioned over the whole app (the shell host is
+// position: relative), not fixed: a fixed layer is only viewport-tall, so full-page screenshots of long result
+// lists showed a hard edge where it ended.
+html {
+  min-height: 100%;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(20, 184, 166, 0.22), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(34, 211, 238, 0.16), transparent 60%),
+    linear-gradient(160deg, #050b18 0%, #0a1a33 55%, #0b2340 100%) #050b18;
+}
+
+.ph-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+
+  // Faint 32 px grid, fading out toward the bottom.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.6) 45%, transparent 85%);
+  }
+}
+
+.ph-orb {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.3;
+
+  &--teal {
+    top: -120px;
+    left: -100px;
+    background: #14b8a6;
+  }
+
+  &--cyan {
+    right: -120px;
+    bottom: -140px;
+    background: #22d3ee;
+  }
+}

@@ -1,0 +1,34 @@
+<div class="ph-bg" aria-hidden="true">
+  <span class="ph-orb ph-orb--teal"></span>
+  <span class="ph-orb ph-orb--cyan"></span>
+</div>
+
+<header class="topbar" data-testid="topbar">
+  <div class="topbar__inner">
+    <a class="brand" routerLink="/search" aria-label="PriceHunt home">
+      <span class="brand__mark" aria-hidden="true">
+        <mat-icon aria-hidden="true">directions_boat</mat-icon>
+      </span>
+      <span class="brand__word">Price<span class="brand__accent">Hunt</span></span>
+    </a>
+
+    <nav class="tabs" aria-label="Main">
+      @for (tab of tabs; track tab.path) {
+        <a
+          class="tab"
+          [routerLink]="tab.path"
+          routerLinkActive="is-active"
+          ariaCurrentWhenActive="page"
+          [attr.data-testid]="'nav-' + tab.label.toLowerCase()"
+        >
+          <mat-icon class="tab__icon" aria-hidden="true">{{ tab.icon }}</mat-icon>
+          <span class="tab__label">{{ tab.label }}</span>
+        </a>
+      }
+    </nav>
+  </div>
+</header>
+
+<main class="content" id="main">
+  <router-outlet />
+</main>

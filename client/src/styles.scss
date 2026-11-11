@@ -1,0 +1,47 @@
+// PriceHunt global styles — dark futuristic glass + neumorphism (SPEC §11.1). Dark mode only.
+@use '@angular/material' as mat;
+@use 'styles/tokens';
+@use 'styles/background';
+@use 'styles/glass';
+@use 'styles/neu';
+@use 'styles/typography';
+@use 'styles/material-overrides';
+
+html {
+  color-scheme: dark;
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$cyan-palette,
+        tertiary: mat.$azure-palette,
+      ),
+      typography: (
+        plain-family: Inter,
+        brand-family: 'Space Grotesk',
+      ),
+      density: 0,
+    )
+  );
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(45, 212, 191, 0.75);
+  outline-offset: 2px;
+}

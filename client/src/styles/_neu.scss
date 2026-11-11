@@ -1,0 +1,280 @@
+// Neumorphic controls, tags, badges, avatars — SPEC §11.1. Raised = idle; inset = active/selected/pressed.
+.ph-neu-raised {
+  background: var(--ph-neu-surface);
+  box-shadow: var(--ph-neu-raised);
+}
+
+.ph-neu-inset {
+  background: var(--ph-neu-surface);
+  box-shadow: var(--ph-neu-inset);
+}
+
+// ---------- Buttons ----------
+.ph-btn {
+  --btn-shadow: var(--ph-neu-raised-sm);
+  --btn-wash: rgba(255, 255, 255, 0.05);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--ph-radius-control);
+  background: var(--ph-neu-surface);
+  box-shadow: var(--btn-shadow);
+  color: var(--ph-text);
+  font: 600 14px/1 var(--ph-font-body);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  // Motion = transform/opacity only (SPEC §11.1): shadows/colours switch instantly; the hover "lighten" is an
+  // overlay pseudo-element whose opacity fades.
+  transition: transform var(--ph-dur) ease-out;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--btn-wash);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--ph-dur) ease-out;
+  }
+
+  .mat-icon,
+  .material-symbols-outlined {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+  }
+
+  &:hover:not(:disabled),
+  &.is-hover {
+    color: #fff;
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:active:not(:disabled),
+  &.is-pressed {
+    --btn-shadow: var(--ph-neu-inset-sm);
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--btn-shadow), var(--ph-focus-ring);
+  }
+
+  &:disabled,
+  &.is-disabled {
+    opacity: 0.45;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  // Primary — accent gradient, dark text, the one glowing action.
+  &--primary {
+    --btn-shadow: var(--ph-neu-raised-sm), var(--ph-primary-glow);
+    --btn-wash: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.18);
+    background: var(--ph-accent-gradient);
+    color: var(--ph-on-accent);
+
+    &:hover:not(:disabled),
+    &.is-hover {
+      color: var(--ph-on-accent);
+      --btn-shadow: var(--ph-neu-raised-sm), 0 0 32px rgba(34, 211, 238, 0.5);
+    }
+
+    &:active:not(:disabled),
+    &.is-pressed {
+      --btn-shadow: inset 3px 3px 8px rgba(4, 18, 31, 0.45), inset -2px -2px 6px rgba(255, 255, 255, 0.2);
+
+      &::before {
+        opacity: 0;
+      }
+    }
+
+    &:disabled,
+    &.is-disabled {
+      filter: saturate(0.6);
+    }
+  }
+
+  // Low-emphasis text button ("Select all · Clear").
+  &--text {
+    --btn-shadow: none;
+    --btn-wash: rgba(45, 212, 191, 0.08);
+    min-height: 32px;
+    padding: 0 10px;
+    border-color: transparent;
+    background: transparent;
+    color: var(--ph-teal);
+    font-weight: 500;
+
+    &:hover:not(:disabled),
+    &.is-hover {
+      color: var(--ph-teal);
+    }
+  }
+
+  // Round icon-only button (swap).
+  &--icon {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    color: var(--ph-teal);
+  }
+}
+
+// ---------- Status tags & badges ----------
+.ph-tag {
+  --tone: var(--ph-neutral);
+  --tone-bg: var(--ph-neutral-bg);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--tone) 40%, transparent);
+  border-radius: var(--ph-radius-pill);
+  background: var(--tone-bg);
+  color: var(--tone);
+  font: 600 12px/1 var(--ph-font-body);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+
+  .mat-icon,
+  .material-symbols-outlined {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+  }
+
+  &--success {
+    --tone: var(--ph-success);
+    --tone-bg: var(--ph-success-bg);
+  }
+  &--danger {
+    --tone: var(--ph-danger);
+    --tone-bg: var(--ph-danger-bg);
+  }
+  &--warning {
+    --tone: var(--ph-warning);
+    --tone-bg: var(--ph-warning-bg);
+  }
+  &--neutral {
+    --tone: var(--ph-neutral);
+    --tone-bg: var(--ph-neutral-bg);
+  }
+}
+
+// Badge = a slightly more prominent tag (Cheapest, final search state).
+.ph-badge {
+  @extend .ph-tag;
+  height: 24px;
+  padding: 0 10px;
+  font-family: var(--ph-font-display);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+// One-shot glow pulse (Cheapest badge when #1 changes — the badge is created on the new #1, so it plays once per
+// change, never loops). Opacity of a pre-drawn glow pseudo-element only: compositor-friendly (SPEC §11.1 motion).
+.ph-pulse {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    box-shadow:
+      0 0 0 3px rgba(52, 211, 153, 0.35),
+      0 0 18px 4px rgba(52, 211, 153, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    animation: ph-pulse 600ms ease-out 1;
+  }
+}
+
+@keyframes ph-pulse {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+// ---------- Supplier avatar & dot ----------
+.ph-avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--supplier, var(--ph-neutral));
+  color: var(--ph-on-accent);
+  font: 700 14px/1 var(--ph-font-display);
+}
+
+.ph-dot {
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--supplier, var(--ph-neutral));
+}
+
+// ---------- Shimmer skeleton ----------
+.ph-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+    transform: translateX(-100%);
+    animation: ph-shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes ph-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-btn,
+  .ph-btn::before,
+  .ph-tag {
+    transition: none;
+  }
+  .ph-pulse::after,
+  .ph-skeleton::after {
+    animation: none;
+  }
+}

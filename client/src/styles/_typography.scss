@@ -1,0 +1,77 @@
+// Typography — SPEC §11.1. Space Grotesk for display/numbers, Inter for everything else.
+body {
+  font-family: var(--ph-font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ph-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+.ph-display {
+  font-family: var(--ph-font-display);
+  letter-spacing: -0.01em;
+  color: var(--ph-text);
+  margin: 0;
+}
+
+.ph-page-title {
+  font-family: var(--ph-font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+
+  @media (max-width: 599.98px) {
+    font-size: 24px;
+  }
+}
+
+.ph-page-subtitle {
+  margin: 6px 0 0;
+  color: var(--ph-text-muted);
+  font-size: 15px;
+}
+
+.ph-section-title {
+  font-family: var(--ph-font-display);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ph-muted {
+  color: var(--ph-text-muted);
+}
+
+// Changing numbers (prices, counters, countdown, response times).
+.ph-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.ph-price {
+  font-family: var(--ph-font-display);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: var(--ph-teal);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.cdk-visually-hidden,
+.ph-sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

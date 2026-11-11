@@ -1,0 +1,545 @@
+// Angular Material restyling — SPEC §11.1 "Angular Material integration".
+// Tokens first (mat.*-overrides + --mat-sys-*); shadows/glass that tokens can't express go in scoped global
+// classes below (no ::ng-deep anywhere).
+@use '@angular/material' as mat;
+
+$overlay-bg: rgba(15, 34, 64, 0.96);
+$well-bg: #0b1a2e;
+
+// `:root` (not `html`) so these win over the `html { mat.theme(...) }` block in styles.scss regardless of order.
+:root {
+  // System colours: teal accents on deep navy surfaces, light text.
+  @include mat.theme-overrides(
+    (
+      primary: #2dd4bf,
+      on-primary: #04121f,
+      primary-container: #0f3a44,
+      on-primary-container: #ccfbf1,
+      secondary-container: #12304a,
+      on-secondary-container: #e6eef8,
+      surface: #0a1a33,
+      on-surface: #e6eef8,
+      on-surface-variant: #94a3b8,
+      surface-container-lowest: #07142a,
+      surface-container-low: #0c1d36,
+      surface-container: #0f2138,
+      surface-container-high: #132a47,
+      surface-container-highest: #183354,
+      outline: rgba(255, 255, 255, 0.24),
+      outline-variant: rgba(255, 255, 255, 0.12),
+      error: #f87171,
+    )
+  );
+
+  // ---------- Form field: filled appearance turned into an inset well ----------
+  @include mat.form-field-overrides(
+    (
+      filled-container-color: $well-bg,
+      filled-disabled-container-color: rgba(11, 26, 46, 0.5),
+      filled-container-shape: 12px,
+      filled-active-indicator-color: transparent,
+      filled-hover-active-indicator-color: transparent,
+      filled-focus-active-indicator-color: transparent,
+      filled-error-active-indicator-color: transparent,
+      filled-error-hover-active-indicator-color: transparent,
+      filled-error-focus-active-indicator-color: transparent,
+      filled-disabled-active-indicator-color: transparent,
+      filled-active-indicator-height: 0,
+      filled-focus-active-indicator-height: 0,
+      filled-label-text-color: #94a3b8,
+      filled-hover-label-text-color: #b6c3d4,
+      filled-focus-label-text-color: #2dd4bf,
+      filled-input-text-color: #e6eef8,
+      filled-input-text-placeholder-color: #94a3b8,
+      filled-caret-color: #2dd4bf,
+      filled-error-label-text-color: #f87171,
+      filled-error-focus-label-text-color: #f87171,
+      filled-error-hover-label-text-color: #f87171,
+      error-text-color: #f87171,
+      leading-icon-color: #94a3b8,
+      trailing-icon-color: #94a3b8,
+      enabled-select-arrow-color: #94a3b8,
+      focus-select-arrow-color: #2dd4bf,
+      hover-state-layer-opacity: 0,
+      focus-state-layer-opacity: 0,
+      container-text-font: 'Inter',
+      filled-label-text-font: 'Inter',
+    )
+  );
+
+  // ---------- Chips (supplier chips) ----------
+  @include mat.chips-overrides(
+    (
+      container-height: 38px,
+      container-shape-radius: 999px,
+      outline-width: 1px,
+      outline-color: rgba(255, 255, 255, 0.06),
+      flat-selected-outline-width: 1px,
+      elevated-container-color: #0f2138,
+      elevated-selected-container-color: #0c1c31,
+      label-text-color: #94a3b8,
+      selected-label-text-color: #2dd4bf,
+      label-text-font: 'Inter',
+      label-text-weight: 500,
+      label-text-size: 14px,
+      hover-state-layer-opacity: 0.04,
+      selected-hover-state-layer-opacity: 0.04,
+      hover-state-layer-color: #ffffff,
+      selected-hover-state-layer-color: #2dd4bf,
+      focus-state-layer-opacity: 0,
+      selected-focus-state-layer-opacity: 0,
+      disabled-label-text-color: #94a3b8,
+    )
+  );
+
+  // ---------- Slide toggle: inset track, raised thumb, teal "on" ----------
+  @include mat.slide-toggle-overrides(
+    (
+      track-height: 26px,
+      track-width: 48px,
+      track-shape: 999px,
+      track-outline-width: 0,
+      selected-track-outline-width: 0,
+      unselected-track-color: #0b1a2e,
+      unselected-hover-track-color: #0b1a2e,
+      unselected-focus-track-color: #0b1a2e,
+      unselected-pressed-track-color: #0b1a2e,
+      selected-track-color: #0d3b42,
+      selected-hover-track-color: #0d3b42,
+      selected-focus-track-color: #0d3b42,
+      selected-pressed-track-color: #0d3b42,
+      unselected-handle-size: 18px,
+      selected-handle-size: 18px,
+      pressed-handle-size: 20px,
+      with-icon-handle-size: 18px,
+      unselected-handle-color: #64748b,
+      unselected-hover-handle-color: #7c8ba1,
+      unselected-focus-handle-color: #7c8ba1,
+      unselected-pressed-handle-color: #7c8ba1,
+      selected-handle-color: #2dd4bf,
+      selected-hover-handle-color: #5eead4,
+      selected-focus-handle-color: #5eead4,
+      selected-pressed-handle-color: #5eead4,
+      handle-elevation-shadow: (3px 3px 6px rgba(0, 0, 0, 0.55)),
+      unselected-hover-state-layer-opacity: 0,
+      unselected-focus-state-layer-opacity: 0,
+      unselected-pressed-state-layer-opacity: 0,
+      selected-hover-state-layer-opacity: 0,
+      selected-focus-state-layer-opacity: 0,
+      selected-pressed-state-layer-opacity: 0,
+      label-text-color: #e6eef8,
+      label-text-font: 'Inter',
+      label-text-size: 14px,
+    )
+  );
+
+  // ---------- Progress bar: inset track, gradient fill (gradient itself in .ph-progress below) ----------
+  @include mat.progress-bar-overrides(
+    (
+      track-height: 8px,
+      active-indicator-height: 8px,
+      track-shape: 999px,
+      track-color: transparent,
+      active-indicator-color: #22d3ee,
+    )
+  );
+
+  @include mat.progress-spinner-overrides(
+    (
+      active-indicator-color: #2dd4bf,
+    )
+  );
+
+  // ---------- Overlays: select, autocomplete, datepicker, menus, tooltips ----------
+  @include mat.select-overrides(
+    (
+      panel-background-color: $overlay-bg,
+      enabled-trigger-text-color: #e6eef8,
+      placeholder-text-color: #94a3b8,
+      enabled-arrow-color: #94a3b8,
+      focused-arrow-color: #2dd4bf,
+      container-elevation-shadow: (0 16px 40px rgba(0, 0, 0, 0.5)),
+      trigger-text-font: 'Inter',
+    )
+  );
+  @include mat.autocomplete-overrides(
+    (
+      background-color: $overlay-bg,
+      container-shape: 12px,
+      container-elevation-shadow: (0 16px 40px rgba(0, 0, 0, 0.5)),
+    )
+  );
+  @include mat.datepicker-overrides(
+    (
+      calendar-container-background-color: $overlay-bg,
+      calendar-container-text-color: #e6eef8,
+      calendar-container-shape: 16px,
+      calendar-container-elevation-shadow: (0 16px 40px rgba(0, 0, 0, 0.5)),
+      calendar-date-selected-state-background-color: #2dd4bf,
+      calendar-date-selected-state-text-color: #04121f,
+      calendar-date-in-range-state-background-color: rgba(45, 212, 191, 0.16),
+      calendar-date-today-outline-color: #2dd4bf,
+      calendar-date-text-color: #e6eef8,
+      calendar-body-label-text-color: #94a3b8,
+      calendar-header-text-color: #94a3b8,
+      calendar-period-button-text-color: #e6eef8,
+      calendar-navigation-button-icon-color: #e6eef8,
+      calendar-header-divider-color: rgba(255, 255, 255, 0.1),
+      toggle-icon-color: #94a3b8,
+      toggle-active-state-icon-color: #2dd4bf,
+      range-input-separator-color: #94a3b8,
+    )
+  );
+  @include mat.menu-overrides(
+    (
+      container-color: $overlay-bg,
+      container-shape: 12px,
+    )
+  );
+  @include mat.tooltip-overrides(
+    (
+      container-color: $overlay-bg,
+      supporting-text-color: #e6eef8,
+      container-shape: 8px,
+    )
+  );
+  @include mat.option-overrides(
+    (
+      label-text-color: #e6eef8,
+      selected-state-label-text-color: #2dd4bf,
+      hover-state-layer-color: rgba(255, 255, 255, 0.06),
+      focus-state-layer-color: rgba(255, 255, 255, 0.08),
+      selected-state-layer-color: rgba(45, 212, 191, 0.12),
+    )
+  );
+  @include mat.pseudo-checkbox-overrides(
+    (
+      full-selected-checkmark-color: #04121f,
+      minimal-selected-checkmark-color: #2dd4bf,
+      full-selected-icon-color: #2dd4bf,
+      full-unselected-icon-color: #94a3b8,
+    )
+  );
+  @include mat.icon-button-overrides(
+    (
+      icon-color: #94a3b8,
+    )
+  );
+
+  // ---------- History table / sort / paginator: transparent over the glass container ----------
+  @include mat.table-overrides(
+    (
+      background-color: transparent,
+      header-headline-color: #94a3b8,
+      header-headline-font: 'Space Grotesk',
+      header-headline-size: 12px,
+      header-headline-weight: 600,
+      header-headline-tracking: 0.06em,
+      header-container-height: 52px,
+      row-item-container-height: 56px,
+      row-item-label-text-color: #e6eef8,
+      row-item-label-text-font: 'Inter',
+      row-item-label-text-size: 14px,
+      row-item-outline-color: rgba(255, 255, 255, 0.06),
+    )
+  );
+  @include mat.sort-overrides(
+    (
+      arrow-color: #2dd4bf,
+    )
+  );
+  @include mat.paginator-overrides(
+    (
+      container-background-color: transparent,
+      container-text-color: #94a3b8,
+      container-text-font: 'Inter',
+      container-text-size: 13px,
+      enabled-icon-color: #e6eef8,
+      disabled-icon-color: rgba(148, 163, 184, 0.45),
+      container-size: 64px,
+    )
+  );
+}
+
+// ======================= Scoped global classes (what tokens can't express) =======================
+
+// Inset well for every form field + teal focus ring.
+.mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  border-radius: 12px;
+  box-shadow: var(--ph-neu-inset);
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  box-shadow: var(--ph-neu-inset), var(--ph-focus-ring);
+}
+
+.mat-mdc-form-field.mat-form-field-invalid .mat-mdc-text-field-wrapper {
+  box-shadow: var(--ph-neu-inset), 0 0 0 1px rgba(248, 113, 113, 0.55);
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  font-size: 12px;
+}
+
+// Supplier chips: raised idle, inset + teal border + glowing dot when selected. Checkmark replaced by the dot.
+// Triple class beats Material's own `.mat-mdc-standard-chip.mdc-evolution-chip--with-primary-graphic …` padding rule.
+.ph-chip.mat-mdc-standard-chip.mdc-evolution-chip {
+  box-shadow: var(--ph-neu-raised-sm);
+
+  .mdc-evolution-chip__graphic {
+    display: none;
+  }
+
+  .mdc-evolution-chip__action--primary {
+    padding-left: 14px;
+    padding-right: 16px;
+  }
+
+  .mdc-evolution-chip__text-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ph-dot {
+    opacity: 0.55;
+    transition: opacity var(--ph-dur) ease-out;
+  }
+
+  &.mat-mdc-chip-selected {
+    box-shadow: var(--ph-neu-inset-sm);
+
+    .mdc-evolution-chip__action--primary::before {
+      border-color: rgba(45, 212, 191, 0.7);
+    }
+
+    .ph-dot {
+      opacity: 1;
+      box-shadow: 0 0 8px var(--supplier);
+    }
+  }
+
+  &:has(.mdc-evolution-chip__action:focus-visible) {
+    box-shadow: var(--ph-neu-raised-sm), var(--ph-focus-ring);
+  }
+
+  &.mat-mdc-chip-selected:has(.mdc-evolution-chip__action:focus-visible) {
+    box-shadow: var(--ph-neu-inset-sm), var(--ph-focus-ring);
+  }
+
+  &.mat-mdc-chip-disabled {
+    opacity: 0.45;
+    box-shadow: none;
+  }
+}
+
+// Slide toggle: inset track, raised thumb, teal glow when on.
+.mat-mdc-slide-toggle {
+  .mdc-switch__track {
+    box-shadow: var(--ph-neu-inset-sm);
+  }
+
+  .mdc-switch--selected .mdc-switch__shadow {
+    box-shadow:
+      0 0 0 1px rgba(45, 212, 191, 0.4),
+      0 0 14px rgba(45, 212, 191, 0.55);
+  }
+
+  .mdc-switch:focus-visible .mdc-switch__track {
+    box-shadow: var(--ph-neu-inset-sm), var(--ph-focus-ring);
+  }
+}
+
+// Progress bar: inset neumorphic track, accent-gradient fill with soft glow; sheen while running.
+.ph-progress {
+  position: relative;
+  overflow: hidden; // keeps the moving sheen inside the track
+  padding: 3px;
+  border-radius: 999px;
+  background: #0a182b;
+  box-shadow: var(--ph-neu-inset-sm);
+
+  .mat-mdc-progress-bar {
+    border-radius: 999px;
+  }
+
+  .mdc-linear-progress__bar-inner {
+    border-top-color: transparent;
+    border-top-width: 0;
+    height: 100%;
+    background: var(--ph-accent-gradient);
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.55);
+  }
+
+  &.is-running::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 999px;
+    background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%);
+    transform: translateX(-100%);
+    animation: ph-sheen 1.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes ph-sheen {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+// Overlay panels: dark translucent glass for readability.
+.mat-mdc-select-panel,
+.mat-mdc-autocomplete-panel,
+.mat-datepicker-content,
+.mat-mdc-menu-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+.mat-datepicker-content {
+  border-radius: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-progress.is-running::after {
+    animation: none;
+    display: none;
+  }
+  .ph-chip .ph-dot,
+  .mat-mdc-paginator .mat-mdc-icon-button {
+    transition: none;
+  }
+}
+
+// ---------- History table (SPEC §11.4 "Look") ----------
+// Uppercase muted headers; active sort column label + arrow in teal; subtle row hover. No blur per row.
+.mat-mdc-table .mat-mdc-header-cell {
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mat-mdc-table .mat-mdc-header-cell[aria-sort='ascending'],
+.mat-mdc-table .mat-mdc-header-cell[aria-sort='descending'] {
+  color: #2dd4bf;
+}
+
+.mat-mdc-table .mat-mdc-header-cell .mat-sort-header-container {
+  border-radius: 6px;
+}
+
+.mat-mdc-table .mat-sort-header-container.cdk-keyboard-focused,
+.mat-mdc-table .mat-sort-header-container:focus-visible {
+  outline: none;
+  box-shadow: var(--ph-focus-ring);
+}
+
+.mat-mdc-table .mat-mdc-row {
+  // Instant hover tint (no colour transition — SPEC §11.1 motion is transform/opacity only).
+  &:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &:last-child .mat-mdc-cell {
+    border-bottom-color: transparent;
+  }
+}
+
+.mat-mdc-table .mat-mdc-header-cell,
+.mat-mdc-table .mat-mdc-cell {
+  &:first-child {
+    padding-left: 24px;
+  }
+  &:last-child {
+    padding-right: 24px;
+  }
+}
+
+// Paginator: neumorphic round buttons (raised idle, inset pressed), inset page-size well.
+.mat-mdc-paginator {
+  .mat-mdc-paginator-container {
+    gap: 8px 16px;
+    padding: 8px 16px;
+  }
+
+  .mat-mdc-paginator-range-label {
+    margin: 0 8px;
+    color: #e6eef8;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mat-mdc-paginator-navigation-first,
+  .mat-mdc-paginator-navigation-previous,
+  .mat-mdc-paginator-navigation-next,
+  .mat-mdc-paginator-navigation-last {
+    width: 40px;
+    height: 40px;
+    margin: 0 3px;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--ph-neu-surface);
+    box-shadow: var(--ph-neu-raised-sm);
+    transition: opacity var(--ph-dur) ease-out;
+
+    &:active:not(:disabled) {
+      box-shadow: var(--ph-neu-inset-sm);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--ph-neu-raised-sm), var(--ph-focus-ring);
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      box-shadow: none;
+    }
+
+    .mat-mdc-button-touch-target {
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  .mat-mdc-paginator-page-size-select {
+    width: 84px;
+  }
+
+  // Page-size select: the shared inset well, without the outlined border.
+  @include mat.form-field-overrides(
+    (
+      outlined-outline-color: transparent,
+      outlined-hover-outline-color: transparent,
+      outlined-focus-outline-color: transparent,
+    )
+  );
+}
+
+// Thin loading bar above the History table (keeps previous rows visible underneath).
+.loading-bar .mat-mdc-progress-bar {
+  @include mat.progress-bar-overrides(
+    (
+      track-height: 3px,
+      active-indicator-height: 3px,
+      track-shape: 0,
+      track-color: rgba(45, 212, 191, 0.12),
+      active-indicator-color: #22d3ee,
+    )
+  );
+
+  .mdc-linear-progress__bar-inner {
+    border-top-color: transparent;
+    height: 100%;
+    background: var(--ph-accent-gradient);
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.55);
+  }
+
+  .mdc-linear-progress__buffer-bar {
+    background: rgba(45, 212, 191, 0.16);
+  }
+}
+

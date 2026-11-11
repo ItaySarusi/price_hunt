@@ -1,0 +1,24 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+# Node / Angular
+node_modules/
+dist/
+.angular/
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+# Playwright / QA
+test-results/
+playwright-report/
+blob-report/
+docs/ui-qa/
+# macOS / local Claude settings
+.DS_Store
+.claude/settings.local.json
+# Superpowers SDD scratch / ralph loop state
+.superpowers/
+.claude/ralph-loop.local.md

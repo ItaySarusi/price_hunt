@@ -1,0 +1,251 @@
+// Search form card — SPEC §11.3. Desktop: From · ⇄ · To · Dates · Search in one row, suppliers below.
+// Tablet: route row, then dates + Search. Phone: stacked full width.
+:host {
+  display: block;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr) minmax(280px, 1.2fr) auto;
+  grid-template-areas:
+    'from swap to dates search'
+    'sup sup sup sup cancel';
+  column-gap: 12px;
+  row-gap: 18px;
+  align-items: start;
+  padding: 22px 22px 18px;
+}
+
+.a-from {
+  grid-area: from;
+}
+.a-swap {
+  grid-area: swap;
+}
+.a-to {
+  grid-area: to;
+}
+.a-dates {
+  grid-area: dates;
+}
+.a-sup {
+  grid-area: sup;
+}
+.a-search {
+  grid-area: search;
+}
+.a-cancel {
+  grid-area: cancel;
+}
+
+// Swap sits on the field's vertical centre (56 px well).
+.swap {
+  margin-top: 6px;
+
+  .mat-icon {
+    transition: transform var(--ph-dur) var(--ph-ease);
+  }
+
+  &:active .mat-icon {
+    transform: rotate(180deg);
+  }
+}
+
+.dates {
+  width: 100%;
+}
+
+// Primary action is as tall as the input wells so the row reads as one bar.
+.search {
+  height: 56px;
+  padding: 0 24px;
+  font-size: 15px;
+
+  .mat-icon {
+    flex: none;
+  }
+}
+
+.cancel {
+  align-self: end;
+  justify-self: stretch;
+  margin-bottom: 2px;
+}
+
+// ---------- Suppliers ----------
+.suppliers {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.suppliers__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+}
+
+.suppliers__label {
+  font-family: var(--ph-font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ph-text-muted);
+}
+
+.suppliers__count {
+  padding: 2px 8px;
+  border-radius: var(--ph-radius-pill);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ph-text-muted);
+  font-size: 12px;
+}
+
+.suppliers__actions {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.suppliers__sep {
+  color: var(--ph-text-faint);
+}
+
+.field-error {
+  margin: 0;
+  min-height: 0;
+  color: var(--ph-danger);
+  font-size: 12px;
+
+  &:empty {
+    display: none;
+  }
+}
+
+// Placeholder while the catalog loads (same footprint as the real card row).
+.card.card--placeholder {
+  grid-template-areas: none;
+  grid-template-columns: 1fr 1fr 1.15fr 160px;
+  gap: 12px;
+  min-height: 176px;
+}
+
+.sk {
+  display: block;
+  height: 56px;
+  border-radius: 12px;
+}
+
+// ---------- Tablet ----------
+@media (max-width: 1023.98px) {
+  .card {
+    // To spans the last two half-columns so From and To stay equal; Search/Cancel share them while running.
+    grid-template-columns: minmax(0, 1fr) 44px minmax(0, 0.5fr) minmax(0, 0.5fr);
+    grid-template-areas:
+      'from swap to to'
+      'dates dates search search'
+      'sup sup sup sup';
+    row-gap: 14px;
+
+    &.is-running {
+      grid-template-areas:
+        'from swap to to'
+        'dates dates search cancel'
+        'sup sup sup sup';
+    }
+  }
+
+  .is-running .search {
+    padding: 0 14px;
+  }
+
+  .cancel {
+    align-self: stretch;
+    height: 56px;
+    margin: 0;
+  }
+
+  .search,
+  .cancel {
+    width: 100%;
+  }
+}
+
+// ---------- Phone ----------
+@media (max-width: 599.98px) {
+  .card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      'from from'
+      'swap swap'
+      'to to'
+      'dates dates'
+      'sup sup'
+      'search search';
+    row-gap: 10px;
+    padding: 16px 14px 16px;
+
+    &.is-running {
+      grid-template-areas:
+        'from from'
+        'swap swap'
+        'to to'
+        'dates dates'
+        'sup sup'
+        'search cancel';
+    }
+  }
+
+  .swap {
+    justify-self: center;
+    margin: -4px 0;
+
+    .mat-icon {
+      transform: rotate(90deg);
+    }
+
+    &:active .mat-icon {
+      transform: rotate(270deg);
+    }
+  }
+
+  .search,
+  .cancel {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    margin: 4px 0 0;
+    padding: 0 12px;
+  }
+
+  .suppliers {
+    padding-top: 12px;
+  }
+
+  .suppliers__head {
+    flex-wrap: wrap;
+  }
+
+  .suppliers__actions .ph-btn {
+    min-height: 40px;
+  }
+
+  .chips {
+    --mat-chip-container-height: 40px;
+  }
+
+  .card.card--placeholder {
+    grid-template-columns: 1fr;
+    min-height: 360px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swap .mat-icon {
+    transition: none;
+  }
+}

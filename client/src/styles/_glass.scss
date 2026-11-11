@@ -1,0 +1,58 @@
+// Glass containers — SPEC §11.1 "Glass tokens". Keep ≤ ~12 blurred elements on screen.
+.ph-glass {
+  background: var(--ph-glass-bg);
+  border: var(--ph-glass-border);
+  border-radius: var(--ph-radius-panel);
+  box-shadow: var(--ph-glass-highlight), var(--ph-glass-shadow);
+  backdrop-filter: var(--ph-glass-blur);
+  -webkit-backdrop-filter: var(--ph-glass-blur);
+
+  &--card {
+    border-radius: var(--ph-radius-card);
+  }
+
+  &--strong {
+    background: var(--ph-glass-bg-strong);
+  }
+
+  // Tinted glass without its own blur (for many repeated items, e.g. rows) — performance rule.
+  &--flat {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ph-glass {
+    background: var(--ph-glass-solid);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .ph-glass {
+    background: var(--ph-glass-solid);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+// Luminous accent border (cheapest card): 1 px gradient border + soft glow.
+.ph-glow {
+  position: relative;
+  border-color: transparent;
+  box-shadow: var(--ph-glass-highlight), var(--ph-glass-shadow), var(--ph-cheapest-glow);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    padding: 1px;
+    border-radius: inherit;
+    background: var(--ph-accent-gradient);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}

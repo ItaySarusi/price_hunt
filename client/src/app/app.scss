@@ -1,0 +1,203 @@
+:host {
+  position: relative;
+  display: block;
+  min-height: 100dvh;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--ph-topbar-h);
+  // Strong glass over a navy tint so content scrolling underneath reads as frosted, not legible.
+  background:
+    linear-gradient(var(--ph-glass-bg-strong), var(--ph-glass-bg-strong)),
+    rgba(7, 18, 36, 0.86);
+  border-bottom: var(--ph-glass-border);
+  box-shadow: var(--ph-glass-highlight), 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+
+  @media (prefers-reduced-transparency: reduce) {
+    background: var(--ph-glass-solid);
+    backdrop-filter: none;
+  }
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 100%;
+  max-width: calc(var(--ph-container) + 2 * var(--ph-gutter));
+  margin: 0 auto;
+  padding: 0 var(--ph-gutter);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ph-text);
+  text-decoration: none;
+  border-radius: 12px;
+}
+
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--ph-accent-gradient);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 4px 12px rgba(0, 0, 0, 0.35);
+  color: var(--ph-on-accent);
+
+  .mat-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 22px;
+  }
+}
+
+.brand__word {
+  font: 600 21px/1 var(--ph-font-display);
+  letter-spacing: -0.02em;
+}
+
+.brand__accent {
+  background: var(--ph-accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 999px;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  color: var(--ph-text-muted);
+  font: 600 14px/1 var(--ph-font-display);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+
+  // Hover wash: an overlay whose opacity fades (motion = transform/opacity only, SPEC §11.1).
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--ph-dur) ease-out;
+  }
+
+  &:hover {
+    color: var(--ph-text);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ph-focus-ring);
+  }
+
+  // 2 px gradient underline glow (only visible when active).
+  &::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 5px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--ph-accent-gradient);
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.7);
+    opacity: 0;
+    transform: scaleX(0.4);
+    transition:
+      opacity var(--ph-dur) ease-out,
+      transform var(--ph-dur) ease-out;
+  }
+
+  &.is-active {
+    background: var(--ph-neu-surface);
+    box-shadow: var(--ph-neu-inset-sm);
+    color: var(--ph-teal);
+
+    &::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    &:focus-visible {
+      box-shadow: var(--ph-neu-inset-sm), var(--ph-focus-ring);
+    }
+  }
+}
+
+.tab__icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+}
+
+.content {
+  display: block;
+  max-width: calc(var(--ph-container) + 2 * var(--ph-gutter));
+  margin: 0 auto;
+  padding: var(--ph-gutter);
+  padding-bottom: 48px;
+}
+
+@media (max-width: 599.98px) {
+  .brand__word {
+    font-size: 19px;
+  }
+
+  .brand__mark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tabs {
+    gap: 4px;
+  }
+
+  .tab {
+    height: 38px;
+    padding: 0 14px;
+
+    &::after {
+      left: 14px;
+      right: 14px;
+    }
+  }
+
+  .tab__icon {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab::before,
+  .tab::after {
+    transition: none;
+  }
+}

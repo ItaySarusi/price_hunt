@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Read", "Edit", "Write", "Glob", "Grep", "WebSearch", "WebFetch",
+      "Bash(dotnet:*)", "Bash(npm:*)", "Bash(npx:*)", "Bash(ng:*)", "Bash(node:*)", "Bash(git:*)",
+      "Bash(curl:*)", "Bash(lsof:*)", "Bash(kill:*)", "Bash(pkill:*)", "Bash(ps:*)", "Bash(sleep:*)",
+      "Bash(sqlite3:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)",
+      "Bash(grep:*)", "Bash(find:*)", "Bash(sort:*)", "Bash(diff:*)", "Bash(sed:*)", "Bash(tee:*)",
+      "Bash(xargs:*)", "Bash(mkdir:*)", "Bash(cp:*)", "Bash(mv:*)", "Bash(rm:*)", "Bash(touch:*)",
+      "Bash(chmod:*)", "Bash(echo:*)", "Bash(pwd)", "Bash(cd:*)", "Bash(which:*)", "Bash(date:*)", "Bash(jq:*)"
+    ],
+    "deny": [
+      "Bash(sudo:*)", "Bash(brew:*)",
+      "Bash(git push --force:*)", "Bash(git push -f:*)", "Bash(git reset --hard:*)",
+      "Bash(rm -rf /:*)", "Bash(rm -rf ~:*)", "Bash(npm publish:*)",
+      "Read(~/.ssh/**)", "Read(~/.aws/**)"
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+// Design tokens — SPEC §11.1. Every colour/shadow used by the app comes from here.
+:root {
+  // Glass
+  --ph-glass-bg: rgba(255, 255, 255, 0.06);
+  --ph-glass-bg-strong: rgba(255, 255, 255, 0.1);
+  --ph-glass-border: 1px solid rgba(255, 255, 255, 0.12);
+  --ph-glass-border-color: rgba(255, 255, 255, 0.12);
+  --ph-glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --ph-glass-blur: blur(18px) saturate(140%);
+  --ph-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --ph-glass-solid: rgba(14, 32, 56, 0.94);
+  --ph-overlay-bg: rgba(15, 34, 64, 0.96);
+  --ph-radius-panel: 16px;
+  --ph-radius-card: 14px;
+
+  // Neumorphism (dark)
+  --ph-neu-surface: #0f2138;
+  --ph-neu-raised: 6px 6px 14px rgba(0, 0, 0, 0.55), -6px -6px 14px rgba(255, 255, 255, 0.05);
+  --ph-neu-raised-sm: 3px 3px 8px rgba(0, 0, 0, 0.5), -3px -3px 8px rgba(255, 255, 255, 0.045);
+  --ph-neu-inset: inset 4px 4px 10px rgba(0, 0, 0, 0.55), inset -4px -4px 10px rgba(255, 255, 255, 0.05);
+  --ph-neu-inset-sm: inset 2px 2px 6px rgba(0, 0, 0, 0.55), inset -2px -2px 6px rgba(255, 255, 255, 0.045);
+  --ph-radius-control: 12px;
+  --ph-radius-pill: 999px;
+  --ph-focus-ring: 0 0 0 2px rgba(45, 212, 191, 0.55), 0 0 18px rgba(45, 212, 191, 0.25);
+
+  // Colour
+  --ph-text: #e6eef8;
+  --ph-text-muted: #94a3b8;
+  --ph-text-faint: #64748b;
+  --ph-teal: #2dd4bf;
+  --ph-cyan: #22d3ee;
+  --ph-accent-gradient: linear-gradient(135deg, #14b8a6, #22d3ee);
+  --ph-on-accent: #04121f;
+  --ph-primary-glow: 0 0 24px rgba(34, 211, 238, 0.35);
+  --ph-cheapest-glow: 0 0 24px rgba(45, 212, 191, 0.25);
+
+  --ph-success: #34d399;
+  --ph-success-bg: rgba(52, 211, 153, 0.14);
+  --ph-danger: #f87171;
+  --ph-danger-bg: rgba(248, 113, 113, 0.14);
+  --ph-warning: #fbbf24;
+  --ph-warning-bg: rgba(251, 191, 36, 0.14);
+  --ph-neutral: #94a3b8;
+  --ph-neutral-bg: rgba(148, 163, 184, 0.14);
+
+  // Supplier avatars (letter is --ph-on-accent)
+  --ph-supplier-A: #2dd4bf;
+  --ph-supplier-B: #60a5fa;
+  --ph-supplier-C: #a78bfa;
+  --ph-supplier-D: #f472b6;
+  --ph-supplier-E: #fb923c;
+  --ph-supplier-F: #a3e635;
+  --ph-supplier-G: #94a3b8;
+
+  // Type
+  --ph-font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --ph-font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  // Layout & motion
+  --ph-container: 1100px;
+  --ph-gutter: 24px;
+  --ph-topbar-h: 64px;
+  --ph-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ph-dur: 200ms;
+
+  @media (max-width: 599.98px) {
+    --ph-gutter: 16px;
+    --ph-topbar-h: 56px;
+  }
+}
+
+// Supplier colour helper: <span class="ph-supplier-C"> exposes --supplier for avatars/dots.
+@each $s in A, B, C, D, E, F, G {
+  .ph-supplier-#{$s} {
+    --supplier: var(--ph-supplier-#{$s});
+  }
+}

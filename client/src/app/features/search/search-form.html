@@ -1,0 +1,119 @@
+@if (catalog(); as c) {
+  <form
+    class="ph-glass card"
+    [class.is-running]="running()"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    aria-label="Search shipping prices"
+    novalidate
+  >
+    <ph-location-autocomplete
+      class="a-from"
+      label="From"
+      icon="trip_origin"
+      testId="from-input"
+      [control]="form.controls.from"
+      [locations]="c.locations"
+      [error]="messages().from"
+    />
+
+    <button
+      type="button"
+      class="ph-btn ph-btn--icon a-swap swap"
+      data-testid="swap-btn"
+      aria-label="Swap From and To"
+      title="Swap From and To"
+      (click)="swap()"
+    >
+      <mat-icon aria-hidden="true">swap_horiz</mat-icon>
+    </button>
+
+    <ph-location-autocomplete
+      class="a-to"
+      label="To"
+      icon="location_on"
+      testId="to-input"
+      [control]="form.controls.to"
+      [locations]="c.locations"
+      [error]="messages().to"
+    />
+
+    <mat-form-field class="a-dates dates" hideRequiredMarker>
+      <mat-label>Shipping dates</mat-label>
+      <mat-date-range-input [rangePicker]="picker" [min]="minDate">
+        <input
+          matStartDate
+          formControlName="start"
+          placeholder="Start date"
+          aria-label="Start date"
+          data-testid="date-start"
+          [errorStateMatcher]="datesMatcher"
+        />
+        <input
+          matEndDate
+          formControlName="end"
+          placeholder="End date"
+          aria-label="End date"
+          data-testid="date-end"
+          [errorStateMatcher]="datesMatcher"
+        />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker" aria-label="Open calendar" />
+      <mat-date-range-picker #picker />
+      @if (messages().dates) {
+        <mat-error>{{ messages().dates }}</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="a-sup suppliers" role="group" aria-labelledby="ph-suppliers-label">
+      <div class="suppliers__head">
+        <span class="suppliers__label" id="ph-suppliers-label">Suppliers</span>
+        <span class="suppliers__count ph-tabular">{{ selectedCount() }} of {{ c.suppliers.length }}</span>
+        <span class="suppliers__actions">
+          <button type="button" class="ph-btn ph-btn--text" data-testid="select-all" (click)="selectAll()">
+            Select all
+          </button>
+          <span class="suppliers__sep" aria-hidden="true">·</span>
+          <button type="button" class="ph-btn ph-btn--text" data-testid="clear-all" (click)="clearAll()">Clear</button>
+        </span>
+      </div>
+
+      <mat-chip-listbox multiple formControlName="suppliers" aria-labelledby="ph-suppliers-label" class="chips">
+        @for (s of c.suppliers; track s.code) {
+          <mat-chip-option
+            class="ph-chip"
+            [class]="'ph-supplier-' + s.code"
+            [value]="s.code"
+            [attr.data-testid]="'supplier-chip-' + s.code"
+          >
+            <span class="ph-dot" aria-hidden="true"></span>{{ s.name }}
+          </mat-chip-option>
+        }
+      </mat-chip-listbox>
+
+      <p class="field-error" aria-live="polite">{{ messages().suppliers }}</p>
+    </div>
+
+    <button type="submit" class="ph-btn ph-btn--primary a-search search" data-testid="search-btn" [disabled]="invalid()">
+      <mat-icon aria-hidden="true">search</mat-icon>Search prices
+    </button>
+
+    @if (running()) {
+      <button type="button" class="ph-btn a-cancel cancel" data-testid="cancel-btn" (click)="cancel()">
+        <mat-icon aria-hidden="true">close</mat-icon>Cancel
+      </button>
+    }
+  </form>
+} @else {
+  <div class="ph-glass card card--placeholder" aria-busy="true">
+    @if (loadError()) {
+      <p class="field-error" role="alert">Couldn't load locations and suppliers. Is the API running?</p>
+    } @else {
+      <span class="ph-sr-only">Loading search form…</span>
+      <span class="ph-skeleton sk sk--from" aria-hidden="true"></span>
+      <span class="ph-skeleton sk sk--to" aria-hidden="true"></span>
+      <span class="ph-skeleton sk sk--dates" aria-hidden="true"></span>
+      <span class="ph-skeleton sk sk--btn" aria-hidden="true"></span>
+    }
+  </div>
+}
